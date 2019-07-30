@@ -21,7 +21,7 @@ export class CharacterManager {
         }
         const charactes = await this.starWarsAPI.getCharacters();
 
-        const characterMap = Helper.toSet(charactes, 'episode_id');
+        const characterMap = Helper.toSet(charactes, 'id');
         this.cacheService.set(envprovider.SYSTEM_CONSTANTS.FILM_CACHE_KEY, characterMap);
         return charactes;
     }

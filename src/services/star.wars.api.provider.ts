@@ -44,7 +44,6 @@ export class StarWarsAPI {
   }
 
   _formatCharacter(character): CharacterInterface {
-    character.character_id = Helper.getFirstNumberOccurenceFromString(character.url);
     const characterDTO = new CharacterDTO(character);
     const films = character.films.map(f => Helper.getFirstNumberOccurenceFromString(f));
     characterDTO.setFilms(films);

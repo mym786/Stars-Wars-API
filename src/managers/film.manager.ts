@@ -40,7 +40,7 @@ export class FilmManager {
         const films = await this.starWarsAPI.getFilms();
 
         // set in cache but first create key-value 
-        const filmsMap = Helper.toSet(films, 'episode_id');
+        const filmsMap = Helper.toSet(films, 'id');
         this.cacheService.set(envprovider.SYSTEM_CONSTANTS.FILM_CACHE_KEY, filmsMap);
         return films;
     }
