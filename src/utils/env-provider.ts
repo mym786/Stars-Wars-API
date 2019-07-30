@@ -1,0 +1,13 @@
+const DB_ENVS = {
+    COMMENT_TABLE_NAME: 'comment',
+}
+
+const SYSTEM_CONSTANTS = {
+    FILM_CACHE_KEY: 'FILM_KEY',
+    CHARACTER_CACHE_KEY: 'CHARACTER_KEY'
+}
+
+export default{
+    DB_ENVS,
+    SYSTEM_CONSTANTS
+}
