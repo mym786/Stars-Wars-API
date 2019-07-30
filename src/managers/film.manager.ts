@@ -11,18 +11,19 @@ import {getManager} from "typeorm";
 import { Comment } from './../db/entities/comment.entities';
 
 import envprovider from './../utils/env-provider';
+import { FilmInterface } from './../interfaces/film.interface';
 
 @Injectable()
 export class FilmManager {
-    constructor(private readonly starWarsAPI: StarWarsAPI, private entityManager: EntityManager, private cacheService: CacheService) {}
+    constructor(private readonly starWarsAPI: StarWarsAPI, private cacheService: CacheService) {}
 
     async getFilmsSortedByReleaseAndComments(): Promise<any> {
         let films = await this.getFilms();
 
         const commentsMap = await this.getFilmCommentsCount();
         films = films.map((f) => {
-            const { episode_id } = f;
-            f['number_of_comments'] = (commentsMap[episode_id] && commentsMap[episode_id].count) || undefined;
+            const { id } = f;
+            f['number_of_comments'] = (commentsMap[id] && commentsMap[id].count) || undefined;
             return f;
         })
         return films.sort(Helper.sorter('release_date', {
@@ -30,6 +31,11 @@ export class FilmManager {
             typeFormat: 'YYYY-MM-DD',
             asc: true
         }));
+    }
+
+    async getFilm(id): Promise<FilmInterface>{
+        const films = await this.getFilms();
+        return films.filter(f => f.id == id).shift();
     }
 
     async getFilms(): Promise<any>{
@@ -48,6 +54,15 @@ export class FilmManager {
     async getFilmCommentsCount(){
         const query = await getManager().query(`SELECT filmId, COUNT(*) as count FROM ${envprovider.DB_ENVS.COMMENT_TABLE_NAME} group by filmId`);
         return Helper.toSet(query, 'filmId');
+    }
+
+    async getFilmComments(id){
+        const comments = await getManager().find(Comment,{
+            where:{
+                filmId: id
+            }
+        })
+        return comments;
     }
 
     async addComment(commentDto : CommentDto){

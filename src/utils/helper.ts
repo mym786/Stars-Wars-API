@@ -67,4 +67,19 @@ export class Helper{
         }
     }
 
+    static toFeetAndInches(centimeter){
+        const totalInFeet = parseFloat(centimeter) * 0.0328;
+
+        const feet = parseInt(''+totalInFeet);
+
+        const inches = (totalInFeet - feet) * 12;
+
+        return {
+            feet,
+            inches
+        }
+        
+
+    }
+
 }

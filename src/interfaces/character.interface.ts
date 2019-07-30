@@ -1,5 +1,5 @@
 export interface CharacterInterface{
-    character_id: string;
+    id: string;
     name:string; //-- The name of this person.
     birth_year:string; // -- The birth year of the person, using the in-universe standard of BBY or ABY - Before the Battle of Yavin or After the Battle of Yavin. The Battle of Yavin is a battle that occurs at the end of Star Wars episode IV: A New Hope.
     eye_color:string; //-- The eye color of this person. Will be "unknown" if not known or "n/a" if the person does not have an eye.

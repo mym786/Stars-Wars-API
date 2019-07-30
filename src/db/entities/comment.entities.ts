@@ -14,6 +14,7 @@ export class Comment {
     c.comment = commentDTO.comment;
     c.ip = commentDTO.ip;
     c.filmId = commentDTO.filmId;
+    c.film = commentDTO.filmName;
     return c;
   };
 

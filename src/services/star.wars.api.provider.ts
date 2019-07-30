@@ -5,6 +5,9 @@ import { SwapiWrapper } from './../lib/swapi.wrapper';
 // helpers
 import { Helper } from './../utils/helper';
 
+// envs
+import envProvider from './../utils/env-provider';
+
 // interfaces and dtos
 import { FilmInterface } from './../interfaces/film.interface';
 import { CharacterInterface } from './../interfaces/character.interface';
@@ -38,7 +41,7 @@ export class StarWarsAPI {
 
   _formatFilm(film): FilmInterface{
     const filmDTO = new FilmDTO(film);
-    const characters = film.characters.map(c => Helper.getFirstNumberOccurenceFromString(c));
+    const characters = film.characters.map(c => `${envProvider.ROUTES.CHARACTERS}/${Helper.getFirstNumberOccurenceFromString(c)}`);
     filmDTO.setCharacter(characters);
     return filmDTO;
   }
@@ -47,6 +50,6 @@ export class StarWarsAPI {
     const characterDTO = new CharacterDTO(character);
     const films = character.films.map(f => Helper.getFirstNumberOccurenceFromString(f));
     characterDTO.setFilms(films);
-    return character;
+    return characterDTO;
   }
 }

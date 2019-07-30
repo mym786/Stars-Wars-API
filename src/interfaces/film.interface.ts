@@ -1,4 +1,5 @@
 export interface FilmInterface {
+    id: string;
     created: Date; // -- the ISO 8601 date format of the time that this resource was created.
     director: string; // -- The name of the director of this film.
     title: string // -- The title of this film

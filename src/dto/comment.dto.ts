@@ -1,7 +1,6 @@
 export class CommentDto {
     readonly comment: string;
-    readonly ip: string;
+    ip: string;
     filmId: string;
-
-
+    filmName: string;
 }
