@@ -24,8 +24,10 @@ export class CharacterManager {
         if(sortBy && !envprovider.SYSTEM_CONSTANTS.CHARACTERS_SORTBALES.includes(sortBy))
             throw new Error('Invalid Sortby attributes provided');
         let characters = await this.getCharacters();
+
+        const filters = Array.isArray(filter) ? filter : [filter];
         
-        filter && filter.map((f) => {
+        filters && filters.map((f) => {
             // FIXME: Implement a robust logic using regex to support all operands
             const [key, value ] = f.split('=');
             if(!key || !value)
