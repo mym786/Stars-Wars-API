@@ -1,0 +1,5 @@
+FROM postgres:9.5
+RUN apt-get update
+RUN apt-get install build-essential -y
+CMD [ "/bin/sh", "-c", "until nc -zv $KONG_PG_HOST $KONG_PG_PORT -w1; do echo 'waiting for db'; sleep 1; done && psql -c 'CREATE DATABASE $DB'" ]
+

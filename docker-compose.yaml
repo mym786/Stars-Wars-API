@@ -1,0 +1,43 @@
+version: "3"
+
+networks:
+ starwars-net:
+  driver: bridge
+
+services:
+
+  #######################################
+  # Postgres: The database
+  #######################################
+  starwars-database:
+    image: postgres:9.5
+    restart: always
+    networks:
+      - starwars-net
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: paystack
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgress"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  #######################################
+  # Postgres: The database
+  #######################################
+  starwars-api:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - starwars-net
+    environment:
+      DB_USER: postgress
+      DB_PASS: postgress
+      DB_HOST: starwars-database
+      DB: paystack
+      DB_PORT: 5432
+  
