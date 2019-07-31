@@ -1,8 +1,11 @@
-import { Controller, Get, Post, Param, Body, Req } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, Req, UseFilters } from '@nestjs/common';
 import { CommentDto } from '../../dto/comment.dto';
 
 import { FilmManager } from './../../managers/film.manager';
 
+import { HttpExceptionFilter } from './../middlewares/http.filter.exception';
+
+@UseFilters(new HttpExceptionFilter())
 @Controller('/films')
 export class FilmController {
   constructor(private readonly filmManager: FilmManager) {}

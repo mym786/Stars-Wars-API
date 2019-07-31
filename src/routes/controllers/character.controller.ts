@@ -1,9 +1,13 @@
-import { Controller, Get, Post, Param, Body, Query } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, Query, UseFilters } from '@nestjs/common';
 import { CharacterManager } from './../../managers/character-manager';
 import { Helper } from './../../utils/helper';
 import envProivder from './../../utils/env-provider';
 
+import { HttpExceptionFilter } from './../middlewares/http.filter.exception';
+
+
 @Controller('/characters')
+@UseFilters(new HttpExceptionFilter())
 export class CharacterController {
   constructor(private readonly characterManager: CharacterManager) {}
 

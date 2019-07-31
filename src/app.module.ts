@@ -7,12 +7,12 @@ import { CacheService } from './services/cache-service';
 import { FilmManager } from './managers/film.manager';
 import { CharacterManager } from './managers/character-manager';
 import { EntityManager } from 'typeorm';
-
+import { HttpExceptionFilter } from './routes/middlewares/http.filter.exception';
 
 
 @Module({
   imports: [DBModule],
   controllers: [...Controllers],
-  providers: [AppService, StarWarsAPI, FilmManager, EntityManager, CacheService, CharacterManager],
+  providers: [AppService, StarWarsAPI, FilmManager, EntityManager, CacheService, CharacterManager, HttpExceptionFilter],
 })
 export class AppModule {}
