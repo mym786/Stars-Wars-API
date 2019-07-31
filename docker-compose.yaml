@@ -34,6 +34,7 @@ services:
       dockerfile: Dockerfile
     networks:
       - starwars-net
+    command: ['/bin/sh', '-c', 'npm start']
     environment:
       DB_USER: postgress
       DB_PASS: postgress

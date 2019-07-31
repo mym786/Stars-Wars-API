@@ -6,6 +6,7 @@ import { StarWarsAPI } from './services';
 import { CacheService } from './services/cache-service';
 import { FilmManager } from './managers/film.manager';
 import { CharacterManager } from './managers/character-manager';
+import { CommentsManager } from './managers/comment.manager';
 import { EntityManager } from 'typeorm';
 import { HttpExceptionFilter } from './routes/middlewares/http.filter.exception';
 
@@ -13,6 +14,6 @@ import { HttpExceptionFilter } from './routes/middlewares/http.filter.exception'
 @Module({
   imports: [DBModule],
   controllers: [...Controllers],
-  providers: [AppService, StarWarsAPI, FilmManager, EntityManager, CacheService, CharacterManager, HttpExceptionFilter],
+  providers: [AppService, StarWarsAPI, FilmManager, EntityManager, CacheService, CharacterManager, HttpExceptionFilter, CommentsManager],
 })
 export class AppModule {}
