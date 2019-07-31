@@ -8,7 +8,7 @@ export class CharacterController {
   constructor(private readonly characterManager: CharacterManager) {}
 
   @Get()
-  async getCharacters(@Query('filter') filters, @Query('sortBy') sortBy,  @Query('order') order): Promise<any> {
+  async getCharacters(@Query('filter') filters: string, @Query('sortBy') sortBy: string,  @Query('order') order: string): Promise<any> {
       const characters = await this.characterManager.getCharactersByFilterAndSorted(filters, sortBy, order);
 
       let skipped = 0;
