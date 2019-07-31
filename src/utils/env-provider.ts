@@ -1,5 +1,12 @@
 const DB_ENVS = {
     COMMENT_TABLE_NAME: 'comment',
+    DB:{
+        HOST: process.env.DB_HOST || 'localhost',
+        PORT: parseInt(process.env.DB_PORT) || 3306,
+        USER: process.env.DB_USER || 'root',
+        PASS: process.env.DB_PASS || 'password',
+        DB: process.env.DB || 'paystack'
+    }
 }
 
 const SYSTEM_CONSTANTS = {
