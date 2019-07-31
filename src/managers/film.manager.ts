@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { EntityManager } from 'typeorm';
 
 import { StarWarsAPI } from './../services';
 import { CacheService } from './../services/cache-service';

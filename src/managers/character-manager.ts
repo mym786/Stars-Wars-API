@@ -57,4 +57,12 @@ export class CharacterManager {
         return charactes;
     }
 
+    async getCharacter(id): Promise<CharacterInterface>{
+        const characters = await this.getCharacters();
+
+        // FIXME: Optimize the following query.
+        return characters && characters.filter(c => c.id == id).shift();
+
+    }
+
 }

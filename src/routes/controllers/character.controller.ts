@@ -42,4 +42,9 @@ export class CharacterController {
       }
       return response;
   }
+
+  @Get(':id')
+  async getFilmCharacters(@Param('id') id: string) {
+    return await this.characterManager.getCharacter(id);
+  }
 }

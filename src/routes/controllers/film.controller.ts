@@ -15,10 +15,6 @@ export class FilmController {
       return await this.filmManager.getFilmsSortedByReleaseAndComments();
   }
 
-  @Get('/characters/:id')
-  getFilmCharacters(@Param('id') id: string) {
-
-  }
   @Get(':id/comments/')
   async getFilmComments(@Param('id') id: string){
     return await this.filmManager.getFilmComments(id);

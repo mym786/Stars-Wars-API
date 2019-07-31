@@ -1,8 +1,9 @@
 const DB_ENVS = {
     COMMENT_TABLE_NAME: 'comment',
     DB:{
+        DBTYPE: "postgres",
         HOST: process.env.DB_HOST || 'localhost',
-        PORT: parseInt(process.env.DB_PORT) || 3306,
+        PORT: parseInt(process.env.DB_PORT) || 5432,
         USER: process.env.DB_USER || 'root',
         PASS: process.env.DB_PASS || 'password',
         DB: process.env.DB || 'paystack'
