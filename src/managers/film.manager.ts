@@ -51,14 +51,14 @@ export class FilmManager {
     }
 
     async getFilmCommentsCount(){
-        const query = await getManager().query(`SELECT filmId, COUNT(*) as count FROM ${envprovider.DB_ENVS.COMMENT_TABLE_NAME} group by filmId`);
-        return Helper.toSet(query, 'filmId');
+        const query = await getManager().query(`SELECT film_id, COUNT(*) as count FROM ${envprovider.DB_ENVS.COMMENT_TABLE_NAME} group by film_id`);
+        return Helper.toSet(query, 'film_id');
     }
 
     async getFilmComments(id){
         const comments = await getManager().find(Comment,{
             where:{
-                filmId: id
+                film_id: id
             }
         })
         return comments;

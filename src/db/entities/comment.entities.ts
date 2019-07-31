@@ -13,7 +13,7 @@ export class Comment {
     const c = new Comment();
     c.comment = commentDTO.comment;
     c.ip = commentDTO.ip;
-    c.filmId = commentDTO.filmId;
+    c.film_id = commentDTO.filmId;
     c.film = commentDTO.filmName;
     return c;
   };
@@ -37,7 +37,7 @@ export class Comment {
   film: string;
 
   @Column('text')
-  filmId: string;
+  film_id: string;
 
   @Column({
     type: 'int',
@@ -46,7 +46,7 @@ export class Comment {
   views: number;
 
   @Column({
-    type: "datetime",
+    type: "date",
     default: () => `now()`,
   })
   created_at: Date;

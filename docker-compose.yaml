@@ -21,7 +21,7 @@ services:
     ports:
       - "5433:5432"
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "postgress"]
+      test: ["CMD", "pg_isready", "-U", "postgres"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -36,9 +36,11 @@ services:
       - starwars-net
     command: ['/bin/sh', '-c', 'npm start']
     environment:
-      DB_USER: postgress
-      DB_PASS: postgress
+      DB_USER: postgres
+      DB_PASS: postgres
       DB_HOST: starwars-database
       DB: paystack
       DB_PORT: 5432
+    ports:
+      - "3000:3000"
   
