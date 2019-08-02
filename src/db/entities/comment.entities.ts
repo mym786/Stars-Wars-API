@@ -46,7 +46,7 @@ export class Comment {
   views: number;
 
   @Column({
-    type: "date",
+    type: "datetime",
     default: () => `now()`,
   })
   created_at: Date;
