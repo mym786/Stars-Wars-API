@@ -1,5 +1,10 @@
 import * as moment from 'moment';
 export class Helper{
+    /**
+     * Given a string /characters/1 it will extract the first occurence of digit
+     * Ex: /characters/1 will return 1
+     * @param str 
+     */
     static getFirstNumberOccurenceFromString(str){
         return str.match(/\d+/g)[0]
     }
