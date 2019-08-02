@@ -28,12 +28,14 @@ export class CharacterManager {
         const filters = Array.isArray(filter) ? filter : [filter];
         
         filters && filters.map((f) => {
-            // FIXME: Implement a robust logic using regex to support all operands
-            const [key, value ] = f.split('=');
-            if(!key || !value)
-                throw new Error('UnSupported Operand');
+            if(f){
+                // FIXME: Implement a robust logic using regex to support all operands
+                const [key, value ] = f.split('=');
+                if(!key || !value)
+                    throw new Error('UnSupported Operand');
 
-            characters = characters.filter(c => c[key] = value);
+                characters = characters.filter(c => c[key] = value);
+            }
         })
         
         return characters.sort(Helper.sorter(sortBy, {
