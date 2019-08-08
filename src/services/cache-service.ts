@@ -18,37 +18,37 @@ export class CacheService {
      * @param key 
      * @param value value should be of type an object
      */
-    async set(key, value){
+    async set(key, value, opts){
         if(!value || typeof value !== 'object')
             throw new Error('Cache Service set accepts an object')
-        return await this.cacheProivder.set(key, JSON.stringify(value));
+        return await this.cacheProivder.set(key, JSON.stringify(value), opts);
     }
 
-    async get(key){
-        return await this.cacheProivder.get(key);
+    async get(key, opts){
+        return await this.cacheProivder.get(key, opts);
     }
 
-    async isKey(key){
-        return await this.cacheProivder.hasKey(key);
+    async isKey(key, opts){
+        return await this.cacheProivder.hasKey(key, opts);
     }
 
 }
 
 interface CacheProvider{
-    set(key, value): Promise<any>;
-    get(key): Promise<any>;
-    hasKey(key): Promise<any>;
+    set(key, value, opts): Promise<any>;
+    get(key, opts): Promise<any>;
+    hasKey(key,opts): Promise<any>;
 }
 class LocalCacheProvider implements CacheProvider{
     private cache = {};
 
-    async set(key: any, value: any) {
+    async set(key: any, value: any, opts: any) {
         this.cache[key] = value;
     }
-    async get(key: any) {
+    async get(key: any, opts: any) {
         return this.cache[key] || null;
     }
-    async hasKey(key: any) {
+    async hasKey(key: any, opts: any) {
         return this.cache[key] !== undefined;
     }
 
@@ -63,14 +63,16 @@ class RedisCacheProvider implements CacheProvider{
     constructor(opts){
         this.client = redis.createClient(opts);
     }
-    async set(key: any, value: any): Promise<any> {
-        return await this.client.set(key, value.toString());
+    async set(key: any, value: any, opts): Promise<any> {
+        await this.client.set(key, value.toString());
+        if(opts && opts.expire)
+            this.client.expire(key, parseInt(opts.expire, 10));
     }
-    async get(key: any): Promise<any> {
+    async get(key: any, opts): Promise<any> {
         const value = await this.client.getAsync(key);
         return JSON.parse(value);
     }
-    async hasKey(key: any): Promise<any> {
+    async hasKey(key: any, opts): Promise<any> {
         return (await this.client.getAsync(key)) != null; 
     }
 

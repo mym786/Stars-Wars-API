@@ -26,7 +26,9 @@ export class CharacterController {
 
       // update cache
       const key = md5(`${req.url}${JSON.stringify(req.query)}`);
-      this.cacheService.set(key, response);
+      this.cacheService.set(key, response, {
+        expire: envProivder.SYSTEM_CONSTANTS.DATA_FRESHNESS_CHARACTERS
+      });
 
       return response;
   }

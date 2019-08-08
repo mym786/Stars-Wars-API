@@ -2,19 +2,21 @@ import { Injectable } from '@nestjs/common';
 
 import { StarWarsAPI } from './../services';
 import { CacheService } from './../services/cache-service';
+import { CharacterManager } from './../managers/character-manager'
 import { Helper } from './../utils/helper';
 
 import { CommentDto } from './../dto/comment.dto';
-import {getManager} from "typeorm";
+import { getManager } from "typeorm";
 
 import { Comment } from './../db/entities/comment.entities';
 
 import envprovider from './../utils/env-provider';
 import { FilmInterface } from './../interfaces/film.interface';
+import { CharacterInterface } from './../interfaces/character.interface';
 
 @Injectable()
 export class FilmManager {
-    constructor(private readonly starWarsAPI: StarWarsAPI, private cacheService: CacheService) {}
+    constructor(private readonly starWarsAPI: StarWarsAPI, private cacheService: CacheService, private characterManager: CharacterManager) {}
 
     async getFilmsSortedByReleaseAndComments(): Promise<any> {
         let films = await this.getFilms();
@@ -38,16 +40,28 @@ export class FilmManager {
     }
 
     async getFilms(): Promise<any>{
-        if( await this.cacheService.isKey(envprovider.SYSTEM_CONSTANTS.FILM_CACHE_KEY) ){
-            const films = await this.cacheService.get(envprovider.SYSTEM_CONSTANTS.FILM_CACHE_KEY);
+        if( await this.cacheService.isKey(envprovider.SYSTEM_CONSTANTS.FILM_CACHE_KEY, null) ){
+            const films = await this.cacheService.get(envprovider.SYSTEM_CONSTANTS.FILM_CACHE_KEY, null);
             return Object.values(films);
         }
         const films = await this.starWarsAPI.getFilms();
 
         // set in cache but first create key-value 
         const filmsMap = Helper.toSet(films, 'id');
-        this.cacheService.set(envprovider.SYSTEM_CONSTANTS.FILM_CACHE_KEY, filmsMap);
+        this.cacheService.set(envprovider.SYSTEM_CONSTANTS.FILM_CACHE_KEY, filmsMap, null);
         return films;
+    }
+
+    async getFilmCharacters(id): Promise<CharacterInterface[]>{
+        const film = await this.getFilm(id);
+        if(!film)
+            throw new Error(`Film with ${id} cannot be found`);
+        const charactersIds = film.characters && film.characters.map(Helper.getFirstNumberOccurenceFromString);
+        if(!charactersIds)
+            return [];
+        else
+            return await this.characterManager.getCharactersByIds(charactersIds)
+        
     }
 
     async getFilmCommentsCount(){

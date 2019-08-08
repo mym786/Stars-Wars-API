@@ -21,6 +21,9 @@ export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(CachingMiddlerware)
-      .forRoutes({ path: 'characters', method: RequestMethod.GET });
+      .forRoutes(
+        { path: 'characters', method: RequestMethod.GET },
+        { path: 'comments', method: RequestMethod.GET }
+        );
   }
 }

@@ -15,12 +15,17 @@ export class FilmController {
       return await this.filmManager.getFilmsSortedByReleaseAndComments();
   }
 
+  @Get('/:id/characters')
+  async getFilmCharacters(@Param('id') id: string){
+    return await this.filmManager.getFilmCharacters(id);
+  }
+
   @Get(':id/comments/')
   async getFilmComments(@Param('id') id: string){
     return await this.filmManager.getFilmComments(id);
   }
   @Post(':id/comments/')
-  async addFilmComment(@Param('id') id, @Body() comment: CommentDto, @Req() request){
+  async addFilmComment(@Param('id') id: string, @Body() comment: CommentDto, @Req() request){
 
     const ip = request.headers['x-forwarded-for'] || request.connection.remoteAddress
     comment.filmId = id;

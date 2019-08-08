@@ -44,20 +44,29 @@ export class CharacterManager {
     }
 
     async getCharacters(): Promise<Array<CharacterInterface>>{
-        if( await this.cacheService.isKey(envprovider.SYSTEM_CONSTANTS.CHARACTER_CACHE_KEY) ){
-            const charactes = await this.cacheService.get(envprovider.SYSTEM_CONSTANTS.CHARACTER_CACHE_KEY);
+        if( await this.cacheService.isKey(envprovider.SYSTEM_CONSTANTS.CHARACTER_CACHE_KEY, null) ){
+            const charactes = await this.cacheService.get(envprovider.SYSTEM_CONSTANTS.CHARACTER_CACHE_KEY, null);
             return Object.values(charactes);
         }
         const charactes = await this.starWarsAPI.getCharacters();
 
         const characterMap = Helper.toSet(charactes, 'id');
-        this.cacheService.set(envprovider.SYSTEM_CONSTANTS.CHARACTER_CACHE_KEY, characterMap);
+        this.cacheService.set(envprovider.SYSTEM_CONSTANTS.CHARACTER_CACHE_KEY, characterMap, null);
         return charactes;
     }
 
     async getCharacter(id): Promise<CharacterInterface>{
         const characters = await this.getCharacters();
         return characters && characters.filter(c => c.id == id).shift();
+    }
+
+    async getCharactersByIds(ids){
+        let characterIds = Array.isArray(ids) ? ids : [ids];
+        
+        const characters = await this.getCharacters();
+
+        return characters && characters.filter(c => characterIds.includes(c.id));
+
     }
 
 }

@@ -14,12 +14,14 @@ export class CachingMiddlerware implements NestMiddleware {
   }
   async use(req: Request, res: Response, next: Function) {
       const key = md5(`${req.url}${JSON.stringify(req.query)}`);
-      const result = await this.cacheService.get(key);
-      if(result)
+      const result = await this.cacheService.get(key, null);
+      if(result){
+        console.info(`Cache Hit ${key}`);
         return res.json(result);
-      else
+      }
+      else{
+        console.info(`Cache Miss ${key}`);
         next();
-
-
+      }
   }
 }
