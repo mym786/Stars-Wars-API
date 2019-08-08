@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { StarWarsAPI } from './../services';
 import { CacheService } from './../services/cache-service';
-import { Helper } from './../utils/helper';
 
 import { Comment } from './../db/entities/comment.entities';
 

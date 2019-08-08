@@ -10,6 +10,11 @@ const DB_ENVS = {
     }
 }
 
+const REDIS_ENV = {
+    HOST: process.env.HOST || 'redis-cache',
+    PORT: process.env.PORT || 6379,
+}
+
 const SYSTEM_CONSTANTS = {
     FILM_CACHE_KEY: 'FILM_KEY',
     CHARACTER_CACHE_KEY: 'CHARACTER_KEY',
@@ -26,5 +31,6 @@ const ROUTES = {
 export default{
     DB_ENVS,
     SYSTEM_CONSTANTS,
-    ROUTES
+    ROUTES,
+    REDIS_ENV
 }

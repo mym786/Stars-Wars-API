@@ -25,22 +25,18 @@ export class CharacterManager {
             throw new Error('Invalid Sortby attributes provided');
         let characters = await this.getCharacters();
 
-        const filters = Array.isArray(filter) ? filter : [filter];
+        const filterAttributes = Object.keys(filter);
         
-        filters && filters.map((f) => {
-            if(f){
-                // FIXME: Implement a robust logic using regex to support all operands
-                const [key, value ] = f.split('=');
-                if(!key || !value)
-                    throw new Error('UnSupported Operand');
-
-                characters = characters.filter(c => c[key] = value);
+        filterAttributes && filterAttributes.map((attribute) => {
+            // filter out null values
+            if(attribute){
+                const value = filter[attribute];
+                if(value) 
+                    characters = characters.filter(c => c[attribute] == value);
             }
         })
-        
         return characters.sort(Helper.sorter(sortBy, {
-            type: 'date',
-            typeFormat: 'YYYY-MM-DD',
+            ...CharacterHelper.getCharacterAttributeType(sortBy),
             asc: order === 'asc' ? true : false,
         }));
 
@@ -48,8 +44,8 @@ export class CharacterManager {
     }
 
     async getCharacters(): Promise<Array<CharacterInterface>>{
-        if( this.cacheService.isKey(envprovider.SYSTEM_CONSTANTS.CHARACTER_CACHE_KEY) ){
-            const charactes = this.cacheService.get(envprovider.SYSTEM_CONSTANTS.CHARACTER_CACHE_KEY);
+        if( await this.cacheService.isKey(envprovider.SYSTEM_CONSTANTS.CHARACTER_CACHE_KEY) ){
+            const charactes = await this.cacheService.get(envprovider.SYSTEM_CONSTANTS.CHARACTER_CACHE_KEY);
             return Object.values(charactes);
         }
         const charactes = await this.starWarsAPI.getCharacters();
@@ -61,10 +57,30 @@ export class CharacterManager {
 
     async getCharacter(id): Promise<CharacterInterface>{
         const characters = await this.getCharacters();
-
-        // FIXME: Optimize the following query.
         return characters && characters.filter(c => c.id == id).shift();
-
     }
 
+}
+
+class CharacterHelper{
+    static getCharacterAttributeType(attribute){
+        switch(attribute){
+            case 'name':
+                return {
+                    type: 'string',
+                }
+            case 'gender':
+                return {
+                    type: 'string'
+                }
+            case 'height':
+                return {
+                    type: 'number'
+                }
+            default:
+                return {
+                    type: 'string',
+                }
+        }
+    }
 }

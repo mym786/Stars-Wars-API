@@ -53,7 +53,7 @@ export class Helper{
     }
 
     /**
-     * 
+     * The function cast the types of a property
      * @param property 
      * @param type 
      * @param typeFormat
@@ -71,13 +71,40 @@ export class Helper{
                 return moment(property, typeFormat).toDate().getTime();
         }
     }
+    /**
+     * The function apply a fn on list of objects in a recuresive manner
+     * Exanple: transform all string values to upper case 
+     * use it as apply(CustomerObj, toUpperCase);
+     */
+    static apply(obj, fn){
+        function iter(o, f) {
+            Object.keys(o).forEach(function (k) {
+                if (o[k] !== null && typeof o[k] === 'object') {
+                    iter(o[k], f);
+                    return;
+                }
+                if (typeof o[k] === 'string') {
+                    o[k] = f(o[k]);
+                }
+            });
+        }
+        // copy object 
+        const objClone = {...obj};
+        iter(obj, fn)
+        return objClone;
+    }
+
+    /**
+     * 
+     * @param centimeter 
+     */
 
     static toFeetAndInches(centimeter){
-        const totalInFeet = parseFloat(centimeter) * 0.0328;
+        const totalInFeet = parseFloat(centimeter) * 0.0328084;
 
         const feet = parseInt(''+totalInFeet);
 
-        const inches = (totalInFeet - feet) * 12;
+        const inches = parseFloat(((totalInFeet - feet) * 12).toFixed(2));
 
         return {
             feet,

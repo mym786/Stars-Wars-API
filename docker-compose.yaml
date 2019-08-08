@@ -43,4 +43,16 @@ services:
       DB_PORT: 5432
     ports:
       - "3000:3000"
+
+  #######################################
+  # Redis Server
+  #######################################
+  redis-cache:
+    image: redis:buster
+    networks:
+      - starwars-net
+    ports:
+      - 6379:6379
+    
+
   

@@ -8,7 +8,7 @@ import { Comment } from './../../db/entities/comment.entities';
 import { HttpExceptionFilter } from './../middlewares/http.filter.exception';
 
 @UseFilters(new HttpExceptionFilter())
-@Controller()
+@Controller('/comments')
 export class CommentsController {
   constructor(private commentManager: CommentsManager) {}
 

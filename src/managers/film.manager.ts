@@ -20,10 +20,10 @@ export class FilmManager {
         let films = await this.getFilms();
 
         const commentsMap = await this.getFilmCommentsCount();
-        films = films.map((f) => {
-            const { id } = f;
-            f['number_of_comments'] = (commentsMap[id] && commentsMap[id].count) || undefined;
-            return f;
+        films = films.map((film) => {
+            const { id } = film;
+            film['number_of_comments'] = (commentsMap[id] && commentsMap[id].count) || 0;
+            return film;
         })
         return films.sort(Helper.sorter('release_date', {
             type: 'date',
@@ -38,8 +38,8 @@ export class FilmManager {
     }
 
     async getFilms(): Promise<any>{
-        if( this.cacheService.isKey(envprovider.SYSTEM_CONSTANTS.FILM_CACHE_KEY) ){
-            const films = this.cacheService.get(envprovider.SYSTEM_CONSTANTS.FILM_CACHE_KEY);
+        if( await this.cacheService.isKey(envprovider.SYSTEM_CONSTANTS.FILM_CACHE_KEY) ){
+            const films = await this.cacheService.get(envprovider.SYSTEM_CONSTANTS.FILM_CACHE_KEY);
             return Object.values(films);
         }
         const films = await this.starWarsAPI.getFilms();
